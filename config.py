@@ -9,7 +9,6 @@ uri = "mongodb+srv://Tanisha:Tani_1234@project.rynzyyy.mongodb.net/?retryWrites=
 client = MongoClient(uri, tlsAllowInvalidCertificates=True,server_api=ServerApi('1'))
 
 # Send a ping to confirm a successful connection
-
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")

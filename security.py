@@ -30,7 +30,6 @@ def create_access_token(user):
 def verify_token(token):
     try:
         payload=jwt.decode(token,JWT_SECRET,algorithms=[ALGORITHM])
-        print("hey")
         return payload
     except Exception as e:
         print(str(e))

@@ -37,30 +37,30 @@ def home():
 @app.post("/api/video")
 async def video_stream(request: Request):
   stream: bytes = await request.body()
-  file_name = f'{datetime.timestamp(datetime.now())}test.mp4'
+  file_name = f'{datetime.timestamp(datetime.now())}.mp4'
 
   result = b''
   with open(file_name, 'wb') as f:
     f.write(stream)
-    result = EmotionDetection().process(file_name)
+  result = EmotionDetection().process(file_name)
 
-    mood_mapping = {
-    "Disgust": ['Energetic', 'Happy', 'Calm'],
-    "Angry": ['Energetic', 'Calm'],
-    "Fear": ['Happy', 'Calm'],
-    "Happy": ['Sad', 'Happy', 'Calm'],
-    "Sad": ['Sad', 'Happy', 'Calm'],
-    "Surprise": ['Energetic', 'Happy', 'Sad']
-    }
-    print(result)
-    response = []
-    if result in mood_mapping.keys():
+  mood_mapping = {
+		"Disgust": ['Energetic', 'Happy', 'Calm'],
+		"Angry": ['Energetic', 'Calm'],
+		"Fear": ['Happy', 'Calm'],
+		"Happy": ['Sad', 'Happy', 'Calm'],
+		"Sad": ['Sad', 'Happy', 'Calm'],
+		"Surprise": ['Energetic', 'Happy', 'Sad']
+	}
+  emotion = result
+  response = []
+  if result in mood_mapping.keys():
       result  = mood_mapping[result]
       df =  pd.read_csv('kaggleMusicMoodFinal.csv')
       df = df[df['Mood'].isin(result)]
-      df = df[['Mood','artists','name', 'id']].sample(50)
+      df = df[['Mood','artists','name', 'id']].sample(10)
       response = df.to_dict('records')
       
 
 
-  return  JSONResponse(content={'music_recomendations':response })
+  return  JSONResponse(content={'emotion': emotion, 'music_recomendations':response })

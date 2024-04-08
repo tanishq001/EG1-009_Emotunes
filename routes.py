@@ -13,7 +13,7 @@ from userrepo import UserRepository, SendEmailVerify
 user=APIRouter(prefix='/api',tags=['Register']) 
 
 
-@user.post("/")
+@user.post("/register")
 def signup_user(username: str ,email:EmailStr ,password:str):
     userRepository=UserRepository()
     db_user= userRepository.get_user_by_username(username)
@@ -25,7 +25,7 @@ def signup_user(username: str ,email:EmailStr ,password:str):
     token=create_access_token(signup)
     SendEmailVerify.sendVerify(token,email)
     if success:
-        return JSONResponse(content={'status': True, "message": "User Created Succssfully"})
+        return JSONResponse(content={'status': True, "message": "User Created Successfully."})
     
     else:
         raise HTTPException(
@@ -34,14 +34,28 @@ def signup_user(username: str ,email:EmailStr ,password:str):
 
 @user.post("/signinuser")
 def signin_user(username : str ,password:str):
+    if username=='' or password=='':
+        raise  HTTPException(
+            status_code=401, detail="Username or password is missing"
+        )
     userRepository = UserRepository()
     db_user = userRepository.get_user_by_username(username)
+
     if not db_user:
-        return "username or password is not valid"
- 
+        raise  HTTPException(
+            status_code=401, detail="User Not Registered"
+        )
+    if db_user["is_active"]==False:
+         raise  HTTPException(
+            status_code=401, detail="User Not Verified"
+        )
     if verify_pass(password,db_user['password']):
         token=create_access_token(UserModel(**db_user))
         return {COOKIE_NAME:token,"token_type":"project"}
+    else:
+         raise  HTTPException(
+            status_code=401, detail="Password Incorrect"
+        )
 
 
 @user.get("/{token}")
@@ -50,12 +64,12 @@ def verify_user(token):
     payload=verify_token(token)
     username=payload.get("username")
     db_user=userRepository.get_user_by_username(username)
- 
     if not username:
         raise  HTTPException(
             status_code=401, detail="Credentials not correct"
         )
+    
     if db_user['is_active']==True:
-        return "your account  has been allreay activeed"
+        return "Your Account has been already activated"
  
-    db_user['is_active']=True
+    userRepository.update_is_active(username)

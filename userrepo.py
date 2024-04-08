@@ -30,9 +30,11 @@ class UserRepository:
     def get_user_by_username(self,username:str):
         print(collection_name.find_one({"username": username}))
         return collection_name.find_one({"username": username})
-    
-    
         
+    def update_is_active(self,username:str) -> bool:
+        collection_name.find_one_and_update({"username":username},{
+            "$set":{"is_active":True}
+        })
     
     def update_user(self,id:int,details:Dict[str,Any]) -> bool:
         collection_name.find_one_and_update({"_id":id},{
@@ -48,13 +50,13 @@ class SendEmailVerify:
  
     # create email
     msg = EmailMessage()
-    msg['Subject'] = "Verify Token"
+    msg['Subject'] = "Verify Email"
     msg['From'] = email_address
     msg['To'] =email 
     msg.set_content(
        f"""\
-    verify account        
-     http://localhost:8080:8080/{token}
+    Click below link to Verify Your Emotunes Account        
+     http://localhost:8000/api/{token}
     """,
          
     )
