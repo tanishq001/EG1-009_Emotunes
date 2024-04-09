@@ -15,11 +15,17 @@ user=APIRouter(prefix='/api',tags=['Register'])
 
 @user.post("/register")
 def signup_user(username: str ,email:EmailStr ,password:str):
+    if username=='' or password=='' or email=='':
+        raise  HTTPException(
+            status_code=401, detail="Fill Out All Details"
+        )
     userRepository=UserRepository()
     db_user= userRepository.get_user_by_username(username)
     if db_user:
-         return "username is not valid"
- 
+         raise HTTPException(
+            status_code=401, detail="Username Already Exists"
+        )
+    
     signup=UserModel(email=email,username=username,password=get_pass_hash(password),is_active=False)
     success=userRepository.create_user(signup)
     token=create_access_token(signup)
@@ -29,14 +35,14 @@ def signup_user(username: str ,email:EmailStr ,password:str):
     
     else:
         raise HTTPException(
-            status_code=401, detail="Credentials not correct"
+            status_code=401, detail="User Not Created!!"
         )
 
 @user.post("/signinuser")
 def signin_user(username : str ,password:str):
     if username=='' or password=='':
         raise  HTTPException(
-            status_code=401, detail="Username or password is missing"
+            status_code=401, detail="Fill Out All Details"
         )
     userRepository = UserRepository()
     db_user = userRepository.get_user_by_username(username)
@@ -45,6 +51,7 @@ def signin_user(username : str ,password:str):
         raise  HTTPException(
             status_code=401, detail="User Not Registered"
         )
+    
     if db_user["is_active"]==False:
          raise  HTTPException(
             status_code=401, detail="User Not Verified"
