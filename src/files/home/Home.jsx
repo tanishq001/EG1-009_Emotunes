@@ -24,7 +24,7 @@ const Home = () => {
   const fetchMusicRecommendations = async (imageSrc) => {
     // Call your music recommendation API here
     try {
-      const response = await axios.post("http://localhost:5173/home", {
+      const response = await axios.post("https://mpvnpzpw-8000.inc1.devtunnels.ms/home", {
         imageSrc,
       });
       // setMusicRecommendations(response.data);

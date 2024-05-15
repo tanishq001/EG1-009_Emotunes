@@ -14,7 +14,7 @@ const VideoStream = ({music, setMusic, setEmotion,setLoading}) => {
   const sendStream = async (data) => {
     setLoading(true)
     console.log("data=", data)
-    const response = await fetch("http://localhost:8000/api/video", {
+    const response = await fetch("https://mpvnpzpw-8000.inc1.devtunnels.ms/api/video", {
       method: "POST",
       headers:{
         "Content-Type": "application/octet-stream",

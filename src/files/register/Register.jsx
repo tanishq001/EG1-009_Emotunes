@@ -16,7 +16,7 @@ export default function Register() {
   const sendRequest = async () => {
     // add your api endpoint for login 
   try {
-    const response = await fetch(`http://localhost:8000/api/register?username=${userName}&email=${email}&password=${password}`, {
+    const response = await fetch(`https://mpvnpzpw-8000.inc1.devtunnels.ms/api/register?username=${userName}&email=${email}&password=${password}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
