@@ -14,7 +14,7 @@ user=APIRouter(prefix='/api',tags=['Register'])
 
 
 @user.post("/register")
-def signup_user(username: str ,email:EmailStr ,password:str):
+def signup_user(username: str ,email:str ,password:str):
     if username=='' or password=='' or email=='':
        return JSONResponse(status_code=400,content={'status': True, "message": "Fill Out All Details"})
     userRepository=UserRepository()

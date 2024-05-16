@@ -10,7 +10,3 @@ class UserModel(BaseModel):
 
     class Config:
         from_attributes = True
- 
-# class Roles:
-#     user=1
-#     admin=2

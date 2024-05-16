@@ -46,7 +46,7 @@ class SendEmailVerify:
  
   def sendVerify(token,email):
     email_address = "tanmud754@gmail.com" # type Email
-    email_password = "tlbkqffcprmfjbya" # If you do not have a gmail apps password, create a new app with using generate password. Check your apps and passwords https://myaccount.google.com/apppasswords
+    email_password = "tlbkqffcprmfjbya" 
  
     # create email
     msg = EmailMessage()
@@ -56,7 +56,7 @@ class SendEmailVerify:
     msg.set_content(
        f"""\
     Click below link to Verify Your Emotunes Account        
-     http://localhost:8000/api/{token}
+     https://mpvnpzpw-8000.inc1.devtunnels.ms/api/{token}
     """,
          
     )

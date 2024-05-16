@@ -58,7 +58,7 @@ async def video_stream(request: Request):
       result  = mood_mapping[result]
       df =  pd.read_csv('kaggleMusicMoodFinal.csv')
       df = df[df['Mood'].isin(result)]
-      df = df[['Mood','artists','name', 'id']].sample(10)
+      df = df[['Mood','artists','name', 'id']].sample(16)
       response = df.to_dict('records')
       
 
