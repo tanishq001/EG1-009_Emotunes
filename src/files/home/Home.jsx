@@ -41,27 +41,6 @@ const Home = () => {
           {/* <VideoRecorder /> */}
           <VideoStream {...{music:musicRecommendations, setMusic:setMusicRecommendations, setEmotion: setEmotion, setLoading:setLoading}} />
         </div>
-        {/* <button
-          onClick={capture}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-        >
-          Capture Image
-        </button>
-        {imageSrc && (
-          <div className="mt-8">
-            <img src={imageSrc} alt="Captured" className="rounded-lg" />
-          </div>
-        )} */}
-        {/* {musicRecommendations.length > 0 && (
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold mb-4">Music Recommendations:</h2>
-            <ul>
-              {musicRecommendations.map((recommendation, index) => (
-                <li key={index}>{recommendation}</li>
-              ))}
-            </ul>
-          </div>
-        )} */}
         <h2 className="text-4xl font-bold mb-4 text-white py-4">
              Emotion: {emotion}
             </h2>
